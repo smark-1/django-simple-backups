@@ -72,6 +72,8 @@ then your uploaded dropbox folder will look like
 * uploads to dropbox at `SIMPLE_BACKUPS_DROPBOX_DATABASE_PATH/current_date | db.sqlite3`
 
 ### changelog
+1.2 added dependencies to the installation
+
 1.1 fixed issue installing library in django
 
 1.0 first release
