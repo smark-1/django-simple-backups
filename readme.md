@@ -35,6 +35,8 @@ Add `backups` to your Django settings INSTALLED_APPS:
 
     # simple backups settings
     # must have access token
+
+    # to get never expiring access token https://www.dropboxforum.com/t5/Dropbox-API-Support-Feedback/Tokens-only-valid-for-4-hours-from-app-console/td-p/425269
     SIMPLE_BACKUPS_DROPBOX_ACCESS_TOKEN = "put your drop box access token here"
 
     # folder in drop box to save all database files to default is "/database/"
