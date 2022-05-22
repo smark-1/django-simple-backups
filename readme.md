@@ -3,7 +3,7 @@
 
 ## Introduction
 This django app gives you a simple management command to backup your sqlite database and media files to dropbox.
-This was created because had countless errors for me and it was easier to just create a new package. All contributions are welcome. 
+This was created because had countless errors for me and it was easier to just create a new package. All contributions are welcome. Please just submit a pull request with a short description of the fix or new feature added. 
 Please note currently this app will not delete old backups. if you want to delete backups then you have to go to dropbox and do it yourself.
 
 ## Installation
