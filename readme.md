@@ -34,10 +34,14 @@ Add `backups` to your Django settings INSTALLED_APPS:
     MEDIA_ROOT = BASE_DIR / 'somepath'
 
     # simple backups settings
-    # must have access token
+    # must have refresh token, app_key, app_secret
 
-    # to get never expiring access token https://www.dropboxforum.com/t5/Dropbox-API-Support-Feedback/Tokens-only-valid-for-4-hours-from-app-console/td-p/425269
-    SIMPLE_BACKUPS_DROPBOX_ACCESS_TOKEN = "put your drop box access token here"
+    # how to get refresh token stackoverflow.com/a/71794390/14665310]
+    SIMPLE_BACKUPS_DROPBOX_REFRESH_TOKEN = "<refresh_token>"
+    # get app key from dropbox.com/developers => choose your app => find app key
+    SIMPLE_BACKUPS_DROPBOX_APP_KEY = '<app_key>'
+    # get app key from dropbox.com/developers => choose your app => find app key
+    SIMPLE_BACKUPS_APP_SECRET = "<app_secret>"
 
     # folder in drop box to save all database files to default is "/database/"
     SIMPLE_BACKUPS_DROPBOX_DATABASE_PATH = "/database/"
@@ -74,6 +78,14 @@ then your uploaded dropbox folder will look like
 * uploads to dropbox at `SIMPLE_BACKUPS_DROPBOX_DATABASE_PATH/current_date | db.sqlite3`
 
 ### changelog
+1.6 uses refresh token instead of authentication token must add these settings
+    
+    SIMPLE_BACKUPS_DROPBOX_REFRESH_TOKEN = "<refresh_token>"
+    SIMPLE_BACKUPS_DROPBOX_APP_KEY = '<app_key>'
+    SIMPLE_BACKUPS_APP_SECRET = "<app_secret>"
+[see how to get refresh token](https://stackoverflow.com/a/71794390/14665310])
+| removed SIMPLE_BACKUPS_DROPBOX_ACCESS_TOKEN setting
+
 1.5 added dependencies to the installation
 
 1.1 fixed issue installing library in django

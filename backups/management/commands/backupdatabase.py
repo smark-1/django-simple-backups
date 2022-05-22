@@ -30,8 +30,6 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
 
         if settings.DATABASES['default']['ENGINE'] == 'django.db.backends.sqlite3':
-
-            dropbox_access_token = settings.SIMPLE_BACKUPS_DROPBOX_ACCESS_TOKEN
             database_upload_path = database_path + get_file_name()
 
             # database file with full path
@@ -39,7 +37,10 @@ class Command(BaseCommand):
 
 
             # login to drop box dropbox
-            client = dropbox.Dropbox(dropbox_access_token)
+            client = dropbox.Dropbox(app_key = settings.SIMPLE_BACKUPS_DROPBOX_APP_KEY,
+                                     app_secret = settings.SIMPLE_BACKUPS_APP_SECRET,
+                                     oauth2_refresh_token = settings.SIMPLE_BACKUPS_DROPBOX_REFRESH_TOKEN
+                                     )
 
             # upload file
             client.files_upload(open(upload_file_path, "rb").read(), database_upload_path)

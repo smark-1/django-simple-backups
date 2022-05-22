@@ -32,12 +32,14 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
 
         if settings.MEDIA_ROOT:
-
-            dropbox_access_token = settings.SIMPLE_BACKUPS_DROPBOX_ACCESS_TOKEN
             media_upload_path = os.path.join(dropbox_media_path , get_dir_name())
 
             # login to drop box dropbox
-            client = dropbox.Dropbox(dropbox_access_token)
+            # login to drop box dropbox
+            client = dropbox.Dropbox(app_key = settings.SIMPLE_BACKUPS_DROPBOX_APP_KEY,
+                                     app_secret = settings.SIMPLE_BACKUPS_APP_SECRET,
+                                     oauth2_refresh_token = settings.SIMPLE_BACKUPS_DROPBOX_REFRESH_TOKEN
+                                     )
 
             # upload files
             # enumerate local files recursively
