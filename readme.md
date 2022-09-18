@@ -78,6 +78,8 @@ then your uploaded dropbox folder will look like
 * uploads to dropbox at `SIMPLE_BACKUPS_DROPBOX_DATABASE_PATH/current_date | db.sqlite3`
 
 ### changelog
+1.8 fixed problem with mysql database not authenticating with password with special characters.
+
 1.7 added mysql backup support
 
 1.6 uses refresh token instead of authentication token must add these settings

@@ -62,7 +62,7 @@ class Command(BaseCommand):
             database_upload_path = database_path + get_file_name_mysql()
 
             # create mysql dump command
-            co = f"mysqldump {settings.DATABASES['default']['NAME']} -u {settings.DATABASES['default']['USER']} -p{settings.DATABASES['default']['PASSWORD']} --no-tablespaces --single-transaction --result-file {backup_file_name}"
+            co = f"mysqldump {settings.DATABASES['default']['NAME']} -u {settings.DATABASES['default']['USER']} -p'{settings.DATABASES['default']['PASSWORD']}' --no-tablespaces --single-transaction --result-file {backup_file_name}"
             # call mysql dump command
             os.system(co)
 
