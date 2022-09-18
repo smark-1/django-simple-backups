@@ -20,7 +20,7 @@ Add `backups` to your Django settings INSTALLED_APPS:
 ### Settings
     # other required settings
 
-    # must use default database and must use 'ENGINE': 'django.db.backends.sqlite3'
+    # must use default database and must use 'ENGINE': 'django.db.backends.sqlite3' or 'ENGINE': 'django.db.backends.mysql',
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
