@@ -1,4 +1,5 @@
-from django.core import management
+import gzip
+import shutil
 from django.core.management.base import BaseCommand
 import dropbox
 from django.conf import settings
@@ -14,6 +15,7 @@ DROPBOX_RENAME_DATE_FORMAT = "%c"
 if hasattr(settings, 'SIMPLE_BACKUPS_DROPBOX_RENAME_DATE_FORMAT'):
     DROPBOX_RENAME_DATE_FORMAT = settings.SIMPLE_BACKUPS_DROPBOX_RENAME_DATE_FORMAT
 
+
 def get_formatted_date():
     now = timezone.now()
     x = datetime.datetime(year=now.year, month=now.month, day=now.day,
@@ -22,8 +24,10 @@ def get_formatted_date():
 
     return formatted_date
 
+
 def get_file_name_sqlite():
     return get_formatted_date() + " | db.sqlite3"
+
 
 def get_file_name_mysql():
     return get_formatted_date() + "|backup.sql"
@@ -48,14 +52,13 @@ class Command(BaseCommand):
             # database file with full path
             upload_file_path = settings.DATABASES['default']['NAME']
 
-
             # upload file
             client.files_upload(open(upload_file_path, "rb").read(), database_upload_path)
             print("[SUCCESS] database uploaded to dropbox")
 
         elif settings.DATABASES['default']['ENGINE'] == 'django.db.backends.mysql':
             # dump.sql file name
-            backup_file_name="backup.sql"
+            backup_file_name = "backup.sql"
             # dump file location on server
             backup_file_path = settings.BASE_DIR / backup_file_name
             # file name in dropbox
@@ -66,10 +69,24 @@ class Command(BaseCommand):
             # call mysql dump command
             os.system(co)
 
+            # gzip
+            using_gzip = False
+            if hasattr(settings, 'SIMPLE_BACKUPS_USE_GZIP'):
+                if settings.SIMPLE_BACKUPS_USE_GZIP:
+                    using_gzip = True
+                    with open(backup_file_path, 'rb') as f_in:
+                        with gzip.open(f'{backup_file_name}.gz', 'wb') as f_out:
+                            shutil.copyfileobj(f_in, f_out)
+
             # upload to dropbox
-            client.files_upload(open(backup_file_path, "rb").read(), database_upload_path)
+            if using_gzip:
+                client.files_upload(open(f"{backup_file_path}.gz", "rb").read(), f"{database_upload_path}.gz")
+                # delete gzipped file from webserver
+                os.remove(f"{backup_file_path}.gz")
+            else:
+                client.files_upload(open(backup_file_path, "rb").read(), database_upload_path)
 
             # delete backup file from webserver
             os.remove(backup_file_path)
         else:
-            raise Exception("backing up the database only supports sqlite databases")
+            raise Exception("backing up the database only supports sqlite and mysql databases")

@@ -54,6 +54,9 @@ Add `backups` to your Django settings INSTALLED_APPS:
     # default is "%c" - Mon Dec 31 17:41:00 2018
     SIMPLE_BACKUPS_DROPBOX_RENAME_DATE_FORMAT = "%c"
 
+    # set this to true (default false) if you want the mysql files to be gzipped before being uploaded to dropbox.
+    SIMPLE_BACKUPS_USE_GZIP = True
+
 ## Management commands
 
 ### manage.py backupmedia 
@@ -78,6 +81,8 @@ then your uploaded dropbox folder will look like
 * uploads to dropbox at `SIMPLE_BACKUPS_DROPBOX_DATABASE_PATH/current_date | db.sqlite3`
 
 ### changelog
+1.9 added gzipping sql file backups only used for django.db.backends.mysql
+
 1.8 fixed problem with mysql database not authenticating with password with special characters.
 
 1.7 added mysql backup support
